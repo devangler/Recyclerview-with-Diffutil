@@ -8,32 +8,49 @@ import com.topzonestudio.recycleviewwithdiff.adaptor.AdaptorClass
 import com.topzonestudio.recycleviewwithdiff.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private var arrayList: ArrayList<String> = ArrayList()
-    private val list: List<String> get() = arrayList.toList()
-    private lateinit var adapter: AdaptorClass
+
     lateinit var binding: ActivityMainBinding
+    private lateinit var adapter: AdaptorClass
+
+    private var _originalList: ArrayList<User> = ArrayList()
+    private val originalList: List<User> get() = _originalList.toList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initRecyclerView()
+        fillList()
+    }
+
+    private fun initRecyclerView() {
         adapter = AdaptorClass(object : OnItemClickListener {
-            override fun onItemClick(value: String) {
-                Toast.makeText(this@MainActivity, "position$value", Toast.LENGTH_SHORT).show()
+            override fun onItemClick(user: User) {
+                Toast.makeText(this@MainActivity, "Username: ${user.name}", Toast.LENGTH_SHORT)
+                    .show()
             }
 
-            override fun onDeleteItem(value: String) {
-                arrayList.remove(value)
-                adapter.submitList(list)
+            override fun onDeleteItem(user: User) {
+                val newList = originalList.map { it.copy() } as ArrayList<User>
+                newList.remove(user)
+                adapter.submitList(newList) {
+                    _originalList.clear()
+                    _originalList.addAll(newList)
+                }
             }
         })
-
-        arrayList.add("A")
-        arrayList.add("B")
-        arrayList.add("C")
         binding.recyclerViewCard.adapter = adapter
-        adapter.submitList(list)
+    }
 
+    private fun fillList() {
+        _originalList.apply {
+            add(User(0, "Sohaib", "phoasdn"))
+            add(User(1, "Kamran", "oasdn"))
+            add(User(2, "Afnan", "pasdn"))
+            add(User(3, "Yaqoob", "pho"))
+        }
+        val newList = originalList.map { it.copy() } as ArrayList<User>
+        adapter.submitList(newList)
     }
 }

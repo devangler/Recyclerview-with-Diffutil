@@ -7,20 +7,21 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.topzonestudio.recycleviewwithdiff.R
+import com.topzonestudio.recycleviewwithdiff.User
 import com.topzonestudio.recycleviewwithdiff.`interface`.OnItemClickListener
 import com.topzonestudio.recycleviewwithdiff.databinding.ItemBinding
 
 
 class AdaptorClass(private val onItemClickListener: OnItemClickListener) :
-    ListAdapter<String, AdaptorClass.CustomViewHolderEmployee>(DiffUtilsEmployees) {
+    ListAdapter<User, AdaptorClass.CustomViewHolderEmployee>(DiffUtilsEmployees) {
 
-    object DiffUtilsEmployees : DiffUtil.ItemCallback<String>() {
+    object DiffUtilsEmployees : DiffUtil.ItemCallback<User>() {
 
-        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
-            return oldItem == newItem
+        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
             return oldItem == newItem
         }
     }
@@ -41,9 +42,9 @@ class AdaptorClass(private val onItemClickListener: OnItemClickListener) :
         val item = getItem(position)
         with(holder) {
             binding.apply {
-                txt.text = item
+                txt.text = item.name
                 txt.setOnClickListener {
-                    onItemClickListener.onItemClick(position.toString())
+                    onItemClickListener.onItemClick(item)
 
                 }
                 imageView.setOnClickListener {

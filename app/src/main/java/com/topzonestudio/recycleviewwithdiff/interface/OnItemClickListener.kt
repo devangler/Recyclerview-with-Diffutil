@@ -1,8 +1,10 @@
 package com.topzonestudio.recycleviewwithdiff.`interface`
 
+import com.topzonestudio.recycleviewwithdiff.User
+
 interface OnItemClickListener {
 
-    fun onItemClick(value: String)
-    fun onDeleteItem(value: String)
+    fun onItemClick(user: User)
+    fun onDeleteItem(user: User)
 
 }
