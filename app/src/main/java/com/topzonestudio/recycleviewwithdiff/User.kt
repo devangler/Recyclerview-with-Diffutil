@@ -3,5 +3,6 @@ package com.topzonestudio.recycleviewwithdiff
 data class User(
     val id: Int,
     val name: String,
-    val phone: String
+    val path: String,
+
 )

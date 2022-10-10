@@ -43,6 +43,7 @@ class AdaptorClass(private val onItemClickListener: OnItemClickListener) :
         with(holder) {
             binding.apply {
                 txt.text = item.name
+
                 txt.setOnClickListener {
                     onItemClickListener.onItemClick(item)
 
