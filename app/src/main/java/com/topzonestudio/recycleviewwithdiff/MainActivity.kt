@@ -1,18 +1,23 @@
 package com.topzonestudio.recycleviewwithdiff
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
 import android.webkit.MimeTypeMap
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.example.awesomedialog.*
 import com.topzonestudio.recycleviewwithdiff.`interface`.OnItemClickListener
 import com.topzonestudio.recycleviewwithdiff.adaptor.AdaptorClass
 import com.topzonestudio.recycleviewwithdiff.databinding.ActivityMainBinding
-import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -28,27 +33,42 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        getDocList()
+        CoroutineScope(Dispatchers.IO).launch {
+            getDocList()
+            withContext(Dispatchers.Main){
+                adapter = AdaptorClass(object : OnItemClickListener {
+                    override fun onItemClick(user: User) {
+                        AwesomeDialog.build(this@MainActivity)
+                            .title("Hello")
+                            .body("Are You There buddy")
+                            .onPositive("Android",
+                                buttonBackgroundColor = R.drawable.layout_bg,
+                                textColor = ContextCompat.getColor(this@MainActivity, android.R.color.white)) {
+                                Log.d("TAG", "positive ")
+                            }
+                            .onNegative("Web") {
+                                Log.d("TAG", "negative ")
+                            }
+//                        val intent = Intent(this@MainActivity, CodeVIewActivity::class.java)
+//                        intent.putExtra("abc",user.path)
+//                        startActivity(intent)
+                    }
 
-        adapter = AdaptorClass(object : OnItemClickListener {
-            override fun onItemClick(user: User) {
-                Toast.makeText(this@MainActivity, "Username: ${user.name}", Toast.LENGTH_SHORT)
-                    .show()
-            }
-
-            override fun onDeleteItem(user: User) {
+                    override fun onDeleteItem(user: User) {
+                        val newList = originalList.map { it.copy() } as ArrayList<User>
+                        newList.remove(user)
+                        adapter.submitList(newList) {
+                            _originalList.clear()
+                            _originalList.addAll(newList)
+                        }
+                    }
+                })
+                binding.recyclerViewCard.adapter = adapter
                 val newList = originalList.map { it.copy() } as ArrayList<User>
-                newList.remove(user)
-                adapter.submitList(newList) {
-                    _originalList.clear()
-                    _originalList.addAll(newList)
-                }
+                adapter.submitList(newList)
             }
-        })
-        binding.recyclerViewCard.adapter = adapter
-        val newList = originalList.map { it.copy() } as ArrayList<User>
-        adapter.submitList(newList)
-     //   fillList()
+        }
+
 
     }
 
@@ -64,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         )
         val sortOrder = MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC"
 
-        val pdf = MimeTypeMap.getSingleton().getMimeTypeFromExtension("pdf")
+        val pdf = MimeTypeMap.getSingleton().getMimeTypeFromExtension("html")
 
         val where = MediaStore.Files.FileColumns.MIME_TYPE +
                 " IN ('" + pdf + "')"
