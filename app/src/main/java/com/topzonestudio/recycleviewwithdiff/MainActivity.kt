@@ -1,10 +1,8 @@
 package com.topzonestudio.recycleviewwithdiff
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
 import android.webkit.MimeTypeMap
@@ -14,6 +12,7 @@ import com.example.awesomedialog.*
 import com.topzonestudio.recycleviewwithdiff.`interface`.OnItemClickListener
 import com.topzonestudio.recycleviewwithdiff.adaptor.AdaptorClass
 import com.topzonestudio.recycleviewwithdiff.databinding.ActivityMainBinding
+import com.topzonestudio.recycleviewwithdiff.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

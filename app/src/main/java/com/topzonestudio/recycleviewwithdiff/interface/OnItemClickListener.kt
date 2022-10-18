@@ -1,6 +1,6 @@
 package com.topzonestudio.recycleviewwithdiff.`interface`
 
-import com.topzonestudio.recycleviewwithdiff.User
+import com.topzonestudio.recycleviewwithdiff.model.User
 
 interface OnItemClickListener {
 

@@ -1,4 +1,4 @@
-package com.topzonestudio.recycleviewwithdiff
+package com.topzonestudio.recycleviewwithdiff.model
 
 data class User(
     val id: Int,

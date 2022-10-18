@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.topzonestudio.recycleviewwithdiff.R
-import com.topzonestudio.recycleviewwithdiff.User
+import com.topzonestudio.recycleviewwithdiff.model.User
 import com.topzonestudio.recycleviewwithdiff.`interface`.OnItemClickListener
 import com.topzonestudio.recycleviewwithdiff.databinding.ItemBinding
 

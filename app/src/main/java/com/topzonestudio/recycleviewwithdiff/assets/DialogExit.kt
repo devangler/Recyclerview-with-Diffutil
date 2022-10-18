@@ -1,4 +1,4 @@
-package com.topzonestudio.recycleviewwithdiff
+package com.topzonestudio.recycleviewwithdiff.assets
 
 import android.app.Activity
 import android.app.Dialog
