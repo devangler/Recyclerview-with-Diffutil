@@ -17,6 +17,6 @@ class SplashView : AppCompatActivity() {
             val mainIntent = Intent(this@SplashView, PermissionActivity::class.java)
             startActivity(mainIntent)
             finish()
-        },5000)
+        },1000)
     }
 }
